@@ -1,6 +1,7 @@
 ﻿using EComm.Core;
 using EComm.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using System.Diagnostics;
 
 namespace EComm.Web.Controllers
@@ -19,12 +20,17 @@ namespace EComm.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var products = await _repository.GetAllProducts();
-            // return Content($"Number of products: {products.Count()}");
-            return Json(products);
+
+            //return Content($"Number of products: {products.Count()}");
+            //return Json(products);
+
+            return View("Index", products);
         }
 
         public IActionResult Privacy()
         {
+            ViewBag.Msg = "Hello";
+
             return View();
         }
 

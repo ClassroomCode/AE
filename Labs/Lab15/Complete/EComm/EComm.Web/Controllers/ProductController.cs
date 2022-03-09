@@ -21,6 +21,9 @@ namespace EComm.Web.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var product = await _repository.GetProduct(id, includeSupplier: true);
+            
+            if (product == null) return NotFound();
+            
             return View(product);
         }
 

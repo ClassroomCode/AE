@@ -17,6 +17,7 @@ namespace EComm.API.Controllers
         }
 
         [HttpGet()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<Product>> GetAllProducts()
         {
             return await _repository.GetAllProducts();

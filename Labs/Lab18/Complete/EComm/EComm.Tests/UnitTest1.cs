@@ -30,5 +30,23 @@ namespace EComm.Tests
             var model = vr.Model as Product;
             Assert.Equal("Bread", model.ProductName);
         }
+
+        [Fact]
+        public void ProductDetailsMissing()
+        {
+            // Arrange
+            var repository = new StubRepository();
+            var pc = new ProductController(repository, null);
+
+            // Act
+            var result = pc.Details(9).Result;
+
+            // Assert
+            Assert.IsAssignableFrom<NotFoundResult>(result);
+            //var vr = result as ViewResult;
+            //Assert.IsAssignableFrom<Product>(vr.Model);
+            //var model = vr.Model as Product;
+            //Assert.Equal("Bread", model.ProductName);
+        }
     }
 }

@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace EComm.Web.Controllers
+namespace EComm.Web.Foo
 {
-    public class HomeController : Controller
+    public class Home : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<Home> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public Home(ILogger<Home> logger)
         {
             _logger = logger;
         }

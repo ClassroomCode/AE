@@ -11,6 +11,8 @@ namespace EComm.Tests
     {
         public async Task<Product?> GetProduct(int id, bool includeSuppliers = false)
         {
+            if (id != 1) return null;
+
             var product = new Product {
                 Id = 1,
                 ProductName = "Bread",

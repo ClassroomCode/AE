@@ -17,7 +17,14 @@ namespace EComm.Web.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var products = await _repository.GetAllProducts(includeSuppliers: true);
-            return View(products);
+
+            if (products.Count() == 0) {
+                return View("~/Views/Shared/NoProducts", products);
+            }
+            else {
+                return View(products);
+            }
+            // custom view engine
         }
     }
 }
