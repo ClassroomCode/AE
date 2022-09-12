@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IRepository>(sp => RepositoryFactory.Create(
-  builder.Configuration["ECommConnection"]));
+  builder.Configuration.GetConnectionString("ECommConnection")));
 
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();

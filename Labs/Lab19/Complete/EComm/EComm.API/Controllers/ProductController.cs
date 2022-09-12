@@ -37,15 +37,9 @@ namespace EComm.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> PutProduct(int id,) 
+        public async Task<IActionResult> PutProduct(int id, Product product)
         {
-            Product product = new Product();
-
-            //Request.Body
-
             if (id != product.Id) return BadRequest();
-
-            var ms = ModelState;
 
             bool b = await _repository.SaveProduct(product);
             if (!b) return NotFound();

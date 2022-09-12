@@ -50,7 +50,6 @@ namespace EComm.Web.Controllers
                 pvm.Suppliers = await _repository.GetAllSuppliers();
                 return View(pvm);
             }
-            
             var product = new Product {
                 Id = id,
                 ProductName = pvm.ProductName,

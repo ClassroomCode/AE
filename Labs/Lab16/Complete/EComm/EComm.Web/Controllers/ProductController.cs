@@ -22,7 +22,7 @@ namespace EComm.Web.Controllers
         {
             var product = await _repository.GetProduct(id, includeSupplier: true);
             if (product == null) return NotFound();
-            return View();
+            return View(product);
         }
 
         [HttpGet("product/edit/{id}")]

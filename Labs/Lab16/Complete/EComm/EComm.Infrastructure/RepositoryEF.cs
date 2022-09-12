@@ -27,7 +27,7 @@ namespace EComm.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_connStr);
-            //optionsBuilder.LogTo(Console.WriteLine);
+            optionsBuilder.LogTo(Console.WriteLine);
         }
 
         public DbSet<Customer> Customers => Set<Customer>();

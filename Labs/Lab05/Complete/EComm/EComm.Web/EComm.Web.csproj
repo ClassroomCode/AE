@@ -10,8 +10,4 @@
     <ProjectReference Include="..\EComm.Core\EComm.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

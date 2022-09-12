@@ -18,9 +18,9 @@ namespace EComm.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = await _repository.GetAllProducts(includeSuppliers: true);
-
-            return View(products);
+            var products = await _repository.GetAllProducts();
+            // return Content($"Number of products: {products.Count()}");
+            return Json(products);
         }
 
         public IActionResult Privacy()

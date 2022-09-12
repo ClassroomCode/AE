@@ -41,10 +41,5 @@ namespace EComm.Web.Controllers
             };
             return View(pvm);
         }
-
-        [HttpPost("product/edit/{id}")]
-        public async Task<IActionResult> Edit(ProductEditViewModel vm)
-        {
-            // save it
-        }
+    }
 }
