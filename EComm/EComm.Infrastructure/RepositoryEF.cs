@@ -3,66 +3,73 @@ using EComm.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EComm.Infrastructure
+namespace EComm.Infrastructure;
+
+public static class RepositoryFactory
 {
-    internal class RepositoryEF : DbContext, IRepository
+    public static IRepository Create(string connStr) => 
+        new RepositoryEF(connStr);
+}
+
+internal class RepositoryEF : DbContext, IRepository
+{
+    private readonly string _connStr;
+
+    public RepositoryEF(string connStr)
     {
-        private readonly string _connStr;
+        _connStr = connStr;
+    }
 
-        public RepositoryEF(string connStr)
-        {
-            _connStr = connStr;
-        }
+    public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+    public DbSet<Product> Products => Set<Product>();
+    public DbSet<Supplier> Suppliers => Set<Supplier>();
 
-        public DbSet<Customer> Customers => Set<Customer>();
-        public DbSet<Order> Orders => Set<Order>();
-        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
-        public DbSet<Product> Products => Set<Product>();
-        public DbSet<Supplier> Suppliers => Set<Supplier>();
+    public async Task<IEnumerable<Product>> GetAllProducts(bool includeSuppliers = false)
+    {
+        return includeSuppliers switch {
+            true => await Products.Include(p => p.Supplier).ToListAsync(),
+            false => await Products.ToListAsync()
+        };
+    }
 
-        public async Task<IEnumerable<Product>> GetAllProducts(bool includeSuppliers = false)
-        {
-            return includeSuppliers switch {
-                true => await Products.Include(p => p.Supplier).ToListAsync(),
-                false => await Products.ToListAsync()
-            };
-        }
+    public async Task<Product?> GetProduct(int id, bool includeSupplier = false)
+    {
+        return includeSupplier switch {
+            true => await Products.Include(p => p.Supplier).SingleOrDefaultAsync(p => p.Id == id),
+            false => await Products.SingleOrDefaultAsync(p => p.Id == id)
+        };
+    }
 
-        public async Task<Product?> GetProduct(int id, bool includeSupplier = false)
-        {
-            return includeSupplier switch {
-                true => await Products.Include(p => p.Supplier).SingleOrDefaultAsync(p => p.Id == id),
-                false => await Products.SingleOrDefaultAsync(p => p.Id == id)
-            };
-        }
+    public Task AddProduct(Product product)
+    {
+        throw new NotImplementedException();
+    }
 
-        public Task AddProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
+    public Task<bool> DeleteProduct(Product product)
+    {
+        throw new NotImplementedException();
+    }
 
-        public Task<bool> DeleteProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
+    public Task<IEnumerable<Supplier>> GetAllSuppliers()
+    {
+        throw new NotImplementedException();
+    }
 
-        public Task<IEnumerable<Supplier>> GetAllSuppliers()
-        {
-            throw new NotImplementedException();
-        }
+    public Task<bool> SaveProduct(Product product)
+    {
+        throw new NotImplementedException();
+    }
 
-        public Task<bool> SaveProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_connStr);
-        }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer(_connStr);
+        optionsBuilder.LogTo(Console.WriteLine);
     }
 }

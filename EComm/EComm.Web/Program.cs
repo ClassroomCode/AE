@@ -1,7 +1,14 @@
+using EComm.Core;
+using EComm.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connStr = builder.Configuration.GetConnectionString("ECommConnection");
+
+builder.Services.AddScoped<IRepository>(_ => RepositoryFactory.Create(connStr));
 
 var app = builder.Build();
 
